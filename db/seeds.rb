@@ -19,7 +19,13 @@ more_movies = [
   { title: 'Nomadland', rating: 'R',
     release_date: '19-Feb-2021' },
   { title: 'CODA', rating: 'PG-13',
-    release_date: '13-Aug-2021' }
+    release_date: '13-Aug-2021' },
+  { title: 'Jason1', rating: 'PG-13',
+    release_date: '13-Apr-2025' },
+  { title: 'Jason2', rating: 'G',
+    release_date: '15-Dec-2023' },
+  { title: 'Jason3', rating: 'R',
+    release_date: '18-Apr-2022' }
 ]
 
 more_movies.each do |movie|
