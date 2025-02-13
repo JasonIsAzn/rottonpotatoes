@@ -1,10 +1,30 @@
 class MoviesController < ApplicationController
   before_action :set_movie, only: %i[ show edit update destroy ]
 
-  # GET /movies or /movies.json
+
   def index
-    @movies = Movie.all
+    sort_column = cookies[:sort] || "title"
+    sort_direction = cookies[:direction] || "asc"
+
+    cookies[:sort] = sort_column
+    cookies[:direction] = sort_direction
+
+    @movies = Movie.order("#{sort_column} #{sort_direction}")
   end
+
+  def change_sort
+    current_sort = cookies[:sort]
+
+    if current_sort == params[:sort]
+      cookies[:direction] = cookies[:direction] == "asc" ? "desc" : "asc"
+    else
+      cookies[:sort] = params[:sort]
+      cookies[:direction] = "asc"
+    end
+
+    redirect_to movies_path
+  end
+
 
   # GET /movies/1 or /movies/1.json
   def show

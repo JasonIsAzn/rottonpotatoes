@@ -1,4 +1,40 @@
-<p style="color: green"><%= notice %></p>
+<style>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  th, td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+  }
+
+  th {
+    background-color: #808080;
+    cursor: pointer;
+  }
+
+  .sorted-asc {
+    background-color: #3f8f29;
+  }
+
+  .sorted-desc {
+    background-color: #de1a24;
+  }
+
+
+  .new-movie-btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 25px;
+    background-color: #500000;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+  }
+</style>
 
 <% content_for :title, "Movies" %>
 
@@ -7,10 +43,25 @@
 <table>
   <thead>
     <tr>
-      <th>Title</th>
-      <th>Rating</th>
-      <th>Release Date</th>
-      <th>Actions</th>
+      <% sorted_column = cookies[:sort] %>
+      <% sorted_direction = cookies[:direction] %>
+
+      <th class="<%= 'sorted-asc' if sorted_column == 'title' && sorted_direction == 'asc' %>
+                 <%= 'sorted-desc' if sorted_column == 'title' && sorted_direction == 'desc' %>">
+        <%= link_to "Title #{sorted_column == 'title' ? (sorted_direction == 'asc' ? '▲' : '▼') : ''}", change_sort_movies_path(sort: "title") %>
+      </th>
+
+      <th class="<%= 'sorted-asc' if sorted_column == 'rating' && sorted_direction == 'asc' %>
+                 <%= 'sorted-desc' if sorted_column == 'rating' && sorted_direction == 'desc' %>">
+        <%= link_to "Rating #{sorted_column == 'rating' ? (sorted_direction == 'asc' ? '▲' : '▼') : ''}", change_sort_movies_path(sort: "rating") %>
+      </th>
+
+      <th class="<%= 'sorted-asc' if sorted_column == 'release_date' && sorted_direction == 'asc' %>
+                 <%= 'sorted-desc' if sorted_column == 'release_date' && sorted_direction == 'desc' %>">
+        <%= link_to "Release Date #{sorted_column == 'release_date' ? (sorted_direction == 'asc' ? '▲' : '▼') : ''}", change_sort_movies_path(sort: "release_date") %>
+      </th>
+
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -18,9 +69,9 @@
       <tr>
         <td><%= movie.title %></td>
         <td><%= movie.rating %></td>
-        <td><%= movie.release_date %></td>
+        <td><%= movie.release_date.strftime("%B %d, %Y") %></td>
         <td>
-          <%= link_to "Show", movie %> |
+          <%= link_to "Show", movie %>
         </td>
       </tr>
     <% end %>
@@ -32,4 +83,6 @@
   </tfoot>
 </table>
 
-<%= link_to "New movie", new_movie_path %>
+<%= link_to "New movie", new_movie_path, class: "new-movie-btn" %>
+
+
