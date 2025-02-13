@@ -61,7 +61,7 @@
         <%= link_to "Release Date #{sorted_column == 'release_date' ? (sorted_direction == 'asc' ? '▲' : '▼') : ''}", change_sort_movies_path(sort: "release_date") %>
       </th>
 
-      <th></th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -71,7 +71,9 @@
         <td><%= movie.rating %></td>
         <td><%= movie.release_date.strftime("%B %d, %Y") %></td>
         <td>
-          <%= link_to "Show", movie %>
+          <%= link_to "Show", movie %> |
+          <%= link_to "Edit", edit_movie_path(movie) %> |
+          <%= link_to "Delete", movie, method: :delete, data: { confirm: "Confirm Delete" } %>
         </td>
       </tr>
     <% end %>
